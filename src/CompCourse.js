@@ -34,6 +34,9 @@ class CompCourse extends React.Component {
             //setRecs={(recs) => this.setRecs(recs)}
             completed={this.props.data}
           ></Rating>
+          <i className="text-muted">
+            Ratings affect your recommended coures, found in the rightmost tab
+          </i>
         </Card.Footer>
       </Card>
     );
