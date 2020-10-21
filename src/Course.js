@@ -15,8 +15,17 @@ class Course extends React.Component {
   }
 
   render() {
+    var color = this.props.background;
+    var size = this.props.size;
     return (
-      <Card style={{ width: "33%", marginTop: "5px", marginBottom: "5px" }}>
+      <Card
+        style={{
+          width: size,
+          marginTop: "5px",
+          marginBottom: "5px",
+          backgroundColor: color,
+        }}
+      >
         <Card.Body>
           <Card.Title>
             <div style={{ maxWidth: 250 }}>{this.props.data.name}</div>
@@ -29,6 +38,8 @@ class Course extends React.Component {
           <Button variant="dark" onClick={() => this.openModal()}>
             View sections
           </Button>
+          <padding> </padding>
+          {this.getCourseButton()}
         </Card.Body>
         <Modal
           show={this.state.showModal}
@@ -64,7 +75,10 @@ class Course extends React.Component {
 
     if (this.props.courseKey in this.props.cartCourses) {
       buttonVariant = "outline-dark";
-      buttonOnClick = () => this.removeCourse();
+      buttonOnClick = (e) => {
+        if (window.confirm("Are you sure you wish to remove this course?"))
+          this.removeCourse(e);
+      };
       buttonText = "Remove Course";
     }
 
@@ -106,12 +120,15 @@ class Course extends React.Component {
   getSectionButton(section) {
     let buttonVariant = "dark";
     let buttonOnClick = (e) => this.addSection(e, section);
-    let buttonText = "Add Section";
+    let buttonText = "Add Section to cart";
 
     if (this.props.courseKey in this.props.cartCourses) {
       if (section in this.props.cartCourses[this.props.courseKey]) {
         buttonVariant = "outline-dark";
-        buttonOnClick = (e) => this.removeSection(e, section);
+        buttonOnClick = buttonOnClick = (e) => {
+          if (window.confirm("Are you sure you wish to remove this section?"))
+            this.removeSection(e, section);
+        };
         buttonText = "Remove Section";
       }
     }
@@ -203,7 +220,7 @@ class Course extends React.Component {
   getSubsectionButton(section, subsection) {
     let buttonVariant = "dark";
     let buttonOnClick = (e) => this.addSubsection(e, section, subsection);
-    let buttonText = "Add Subsection";
+    let buttonText = "Add Subsection to Cart";
 
     if (this.props.courseKey in this.props.cartCourses) {
       if (section in this.props.cartCourses[this.props.courseKey]) {
@@ -283,3 +300,4 @@ class Course extends React.Component {
 }
 
 export default Course;
+
