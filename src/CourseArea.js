@@ -1,13 +1,17 @@
 import React from "react";
 import "./App.css";
 import Course from "./Course";
+import Card from "react-bootstrap/Card";
 
 class CourseArea extends React.Component {
   getCourses() {
+    console.log(this.props.backgroundClr);
     let courses = [];
     if (Array.isArray(this.props.data)) {
       for (let i = 0; i < this.props.data.length; i++) {
         let req = this.checkRequisites(this.props.data[i]);
+        let color = this.getBackgroundColor();
+        let size = this.getCardSize();
         courses.push(
           <Course
             key={i}
@@ -17,6 +21,8 @@ class CourseArea extends React.Component {
             removeCartCourse={(data) => this.props.removeCartCourse(data)}
             cartCourses={this.props.cartCourses}
             reqMessage={req}
+            background={color}
+            size={size}
           />
         );
       }
@@ -30,11 +36,28 @@ class CourseArea extends React.Component {
             addCartCourse={(data) => this.props.addCartCourse(data)}
             removeCartCourse={(data) => this.props.removeCartCourse(data)}
             cartCourses={this.props.cartCourses}
+            background={() => this.getBackgroundColor()}
           />
         );
       }
     }
     return courses;
+  }
+
+  getCardSize() {
+    if (this.props.cartCheck === "cart") {
+      return "100%";
+    } else {
+      return "33%";
+    }
+  }
+
+  getBackgroundColor() {
+    if (this.props.cartCheck === "cart") {
+      return "#ffffcc";
+    } else {
+      return "white";
+    }
   }
   checkRequisites(course) {
     var requisiteArray = [];
@@ -86,7 +109,42 @@ class CourseArea extends React.Component {
   }
 
   render() {
-    return <div style={{ margin: 5, marginTop: -5 }}>{this.getCourses()}</div>;
+    if (this.props.cartCheck === "cart") {
+      return (
+        <div style={{ margin: 5, marginTop: -5 }}>
+          <Card
+            className="mx-auto justify-content-center"
+            style={{
+              backgroundColor: "whitesmoke",
+              width: "60%",
+              marginTop: "5px",
+              marginBottom: "5px",
+            }}
+          >
+            <Card.Title
+              className="mx-auto justify-content-center"
+              style={{ marginTop: 10, fontSize: 30 }}
+            >
+              Your Cart
+            </Card.Title>
+            <Card.Body
+              style={{ width: "100%" }}
+              className="mx-auto justify-content-center"
+            >
+              <div className={"row"}>
+                {this.getCourses().map((course) => (
+                  <div className={"col-sm-6"}>{course}</div>
+                ))}
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ margin: 5, marginTop: -5 }}>{this.getCourses()}</div>
+      );
+    }
   }
 }
 
