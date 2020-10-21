@@ -14,11 +14,16 @@ class RecArea extends React.Component {
             courseKey={this.props.recs[i].number}
             courses={this.props.courses}
             interests={interest}
+            recDismiss={(course) => this.recDismiss(course)}
           />
         );
       }
     }
     return courses;
+  }
+
+  recDismiss(course) {
+    this.props.removeRec(course);
   }
 
   getInterest(course) {
