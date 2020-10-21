@@ -262,6 +262,18 @@ class App extends React.Component {
     this.setRecCourses(this.state.highlyRated);
   }
 
+  removeRec(course) {
+    var newRecs = [];
+    for (const recCourse of this.state.recCourses) {
+      if (course.name !== recCourse.name) {
+        newRecs.push(recCourse);
+      } else {
+        console.log(course.name);
+      }
+    }
+    this.setState({ recCourses: newRecs });
+  }
+
   render() {
     return (
       <>
@@ -295,17 +307,19 @@ class App extends React.Component {
                 removeCartCourse={(data) => this.removeCartCourse(data)}
                 cartCourses={this.state.cartCourses}
                 completed={this.state.previousCourses}
+                backgroundClr={"search"}
               />
             </div>
           </Tab>
           <Tab eventKey="cart" title="Cart" style={{ paddingTop: "5vh" }}>
-            <div style={{ marginLeft: "20vw" }}>
+            <div>
               <CourseArea
                 data={this.getCartData()}
                 addCartCourse={(data) => this.addCartCourse(data)}
                 removeCartCourse={(data) => this.removeCartCourse(data)}
                 cartCourses={this.state.cartCourses}
                 completed={this.state.previousCourses}
+                cartCheck="cart"
               />
             </div>
           </Tab>
@@ -336,6 +350,7 @@ class App extends React.Component {
                 completed={this.state.previousCourses}
                 courses={this.state.allCourses}
                 interests={this.state.recInterests}
+                removeRec={(course) => this.removeRec(course)}
               />
             </div>
           </Tab>
@@ -346,3 +361,4 @@ class App extends React.Component {
 }
 
 export default App;
+
