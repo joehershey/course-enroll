@@ -17,6 +17,20 @@ class RecCourse extends React.Component {
         <Card.Body>
           <Card.Title>
             <div style={{ maxWidth: 250 }}>{this.props.data.name}</div>
+            <Button
+              variant="outline-dark"
+              onClick={() => this.removeRec(this.props.data)}
+              style={{
+                height: 25,
+                fontSize: 12,
+                padding: 2,
+                position: "absolute",
+                right: 60,
+                top: 20,
+              }}
+            >
+              Dismiss Recommendation
+            </Button>
             {this.getExpansionButton()}
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
@@ -35,20 +49,8 @@ class RecCourse extends React.Component {
     );
   }
 
-  setRecs(recs) {
-    this.props.setRecs(recs);
-  }
-
-  setRate(rate, comp) {
-    this.props.setRate(rate, comp);
-  }
-
-  openModal() {
-    this.setState({ showModal: true });
-  }
-
-  closeModal() {
-    this.setState({ showModal: false });
+  removeRec(course) {
+    this.props.recDismiss(course);
   }
 
   setExpanded(value) {
